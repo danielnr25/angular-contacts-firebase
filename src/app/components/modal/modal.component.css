@@ -1,0 +1,21 @@
+.content{
+  padding-top: 10px;
+}
+
+.row{
+  display: flex;
+  gap: 10px;
+}
+
+mat-form-field{
+  width: 100%;
+}
+
+h1{
+  text-align: center;
+  color:#1b6eff
+}
+
+.action{
+  padding:0 25px 20px;
+}
