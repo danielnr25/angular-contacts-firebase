@@ -1,7 +1,9 @@
 import { Injectable, inject } from "@angular/core";
-import { Firestore, collection, addDoc, DocumentReference, DocumentData  } from "@angular/fire/firestore";
+import { Firestore, collection, addDoc, DocumentReference, DocumentData, query, orderBy, collectionData  } from "@angular/fire/firestore";
 import { APP_CONSTANTS } from "@shared/constants";
 import { Contact } from "./contact.interface";
+import { Observable } from "rxjs"; // Un observable escucha en tiempo real los cambios emitidos
+
 @Injectable({providedIn:'root'})
 
 
@@ -36,8 +38,9 @@ export class ConctactService{
   }
 
   // Método para obtener todos los contactos
-  getAllContacts(){
-
+  getAllContacts():Observable<Contact[]> {
+    const queryFn = query(this._contactCollection, orderBy('created','desc'));
+    return collectionData(queryFn,{idField:'id'}) as Observable<Contact[]>
   }
 
 }
