@@ -12,15 +12,31 @@
     </div>
     <div class="row">
       <mat-form-field appearance="outline">
-        <mat-label>Nombre</mat-label>
+        <mat-label>Email</mat-label>
         <input matInput type="text">
       </mat-form-field>
     </div>
     <div class="row">
       <mat-form-field appearance="outline">
-        <mat-label>Nombre</mat-label>
+        <mat-label>Telefono</mat-label>
         <input matInput type="text">
       </mat-form-field>
     </div>
+
+    <div class="row">
+      <mat-form-field>
+        <mat-label>País</mat-label>
+        <mat-select>
+          <mat-option *ngFor="let element of countries" [value]="element" >{{ element }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions class="action">
+      <button mat-raised-button [mat-dialog-close]="false" type="button">Cancelar</button>
+      <button type="submit" mat-flat-button>Registrar</button>
+    </div>
+
+
   </div>
 </form>
