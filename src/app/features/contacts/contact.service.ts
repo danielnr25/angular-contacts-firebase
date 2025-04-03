@@ -1,6 +1,7 @@
 import { Injectable, inject } from "@angular/core";
-import { Firestore, collection, addDoc  } from "@angular/fire/firestore";
+import { Firestore, collection, addDoc, DocumentReference, DocumentData  } from "@angular/fire/firestore";
 import { APP_CONSTANTS } from "@shared/constants";
+import { Contact } from "./contact.interface";
 @Injectable({providedIn:'root'})
 
 
@@ -11,10 +12,11 @@ export class ConctactService{
   private readonly _contactCollection = collection(this._firestore,APP_CONSTANTS.COLLECTION_NAME) // collection(db,"contacts")
 
   // Método para crear un nuevo contacto
-  newContact(){
+  newContact(contact: Partial<Contact>): Promise<DocumentReference<DocumentData>>  {
     return addDoc(this._contactCollection, {
-      name: "Tokyo",
-      country: "Japan"
+      ...contact,
+      created:Date.now(),
+      updated:Date.now()
     });
   }
 
