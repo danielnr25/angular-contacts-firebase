@@ -7,7 +7,7 @@ import { Observable } from "rxjs"; // Un observable escucha en tiempo real los c
 @Injectable({providedIn:'root'})
 
 
-export class ConctactService{
+export class ContactService{
 
   private readonly _firestore = inject(Firestore); // DB FIRESTORE. inyectamos al servicio con la base de datos de Firebase
 

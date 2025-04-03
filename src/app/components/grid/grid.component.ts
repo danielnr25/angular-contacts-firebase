@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit,effect,inject,input, viewChild } from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-
-const MATERIAL_MODULES = [MatPaginatorModule,MatTableModule]
-
+import { ContactService } from '@features/contacts/contact.service';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -34,6 +33,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
 ];
 
+const MATERIAL_MODULES = [MatPaginatorModule,MatTableModule, MatSortModule]
 
 @Component({
   selector: 'app-grid',
@@ -43,7 +43,27 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 
 
-export class GridComponent {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+export class GridComponent<DATA> implements OnInit {
+  displayedColumns = input.required<string[]>();
+  data = input.required<DATA[]>();
+  dataSource = new MatTableDataSource<DATA>();
+  sortableColumns = input<string[]>([]);
+  private readonly _sort = viewChild.required<MatSort>(MatSort);
+  private readonly _contactSvc = inject(ContactService);
+  private readonly _paginator = viewChild.required<MatPaginator>(MatPaginator);
+  constructor(){
+    effect(()=>{
+      if(this.data()){
+        this.dataSource.data = this.data();
+        this.dataSource.paginator = this._paginator();
+      }
+    },{allowSignalWrites: true});
+  }
+
+
+
+  ngOnInit(): void {
+    this.dataSource.data = this.data();
+    this.dataSource.sort = this._sort();
+  }
 }
