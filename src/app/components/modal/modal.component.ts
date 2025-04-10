@@ -8,6 +8,7 @@ import { APP_CONSTANTS } from '@shared/constants';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {MAT_DIALOG_DATA,MatDialogModule } from '@angular/material/dialog';
 import { ModalService } from './modal.service';
+import { ContactService } from '@features/contacts/contact.service';
 const MATERIAL_MODULES = [CommonModule,MatInputModule,MatFormFieldModule,MatButtonModule,MatDialogModule,MatSelectModule]
 @Component({
   selector: 'app-modal',
@@ -24,6 +25,7 @@ export class ModalComponent implements OnInit {
   private readonly _matDialog = inject(MAT_DIALOG_DATA); // me sirve para recibir los datos del contacto que se va a editar o crear
   private readonly _formbuilder = inject(FormBuilder);
   private readonly _modalSvc   = inject(ModalService);
+  private readonly _contactSvc = inject(ContactService);
 
   getTitle():string{
     return this._matDialog.data ? 'EDITAR ' : 'REGISTRAR ';
@@ -37,10 +39,13 @@ export class ModalComponent implements OnInit {
   }
 
   onSubmit(){
+    const contact = this.contactForm.value;
+   
     if(this._matDialog.data){
-      console.log('Actualizando......')
+      const contact_id = this._matDialog.data.id;
+      this._contactSvc.updateContact(contact_id,contact);
     }else{ 
-      console.log('Registrando.......')
+      this._contactSvc.newContact(contact);
     }
 
     this._modalSvc.closeModal(); // me permite cerrar mi modal

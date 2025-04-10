@@ -1,5 +1,5 @@
 import { Injectable, inject } from "@angular/core";
-import { Firestore, collection, addDoc, DocumentReference, DocumentData, query, orderBy, collectionData  } from "@angular/fire/firestore";
+import { Firestore, collection, addDoc, DocumentReference, DocumentData, query, orderBy, collectionData, doc, updateDoc, deleteDoc  } from "@angular/fire/firestore";
 import { APP_CONSTANTS } from "@shared/constants";
 import { Contact } from "./contact.interface";
 import { Observable } from "rxjs"; // Un observable escucha en tiempo real los cambios emitidos
@@ -28,19 +28,26 @@ export class ContactService{
   }
 
   // Método para actualizar un contacto
-  updateContact(){
-
+  updateContact(id:string, contact:any){
+    const docRef = this._getDocRef(id);
+    updateDoc(docRef,{...contact})
   }
 
   // Método para eliminar un contacto
-  deleteContact(){
-
+  deleteContact(id:string){
+    const docRef = this._getDocRef(id);
+    deleteDoc(docRef);
   }
 
   // Método para obtener todos los contactos
   getAllContacts():Observable<Contact[]> {
     const queryFn = query(this._contactCollection, orderBy('created','desc'));
     return collectionData(queryFn,{idField:'id'}) as Observable<Contact[]>
+  }
+
+  // método privado para obtener la referencia
+  private _getDocRef(id:string){
+    return doc(this._firestore,APP_CONSTANTS.COLLECTION_NAME,id)
   }
 
 }

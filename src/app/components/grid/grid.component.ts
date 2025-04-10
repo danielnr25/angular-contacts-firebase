@@ -80,7 +80,7 @@ export class GridComponent<DATA> implements OnInit {
   deleteContact(id:string) :void{
     const confirmation = confirm(APP_CONSTANTS.MESSAGES.CONFIRMATION_PROMPT);
     if(confirmation){
-      console.log('Eliminando')
+      this._contactSvc.deleteContact(id);
     }else{
       return;
     }

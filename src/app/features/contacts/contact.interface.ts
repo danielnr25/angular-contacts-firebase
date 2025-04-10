@@ -12,5 +12,4 @@ export interface Contact{
   actions:string,
   created:Timestamp,
   updated:Timestamp
-
 }
