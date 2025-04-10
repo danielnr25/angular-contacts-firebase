@@ -8,3 +8,11 @@
   background-color: #f5f5f5;
   border-color: currentColor;
 }
+
+.warning{
+  color: oklch(79.5% 0.184 86.047);
+}
+
+.danger{
+  color: oklch(63.7% 0.237 25.331);
+}

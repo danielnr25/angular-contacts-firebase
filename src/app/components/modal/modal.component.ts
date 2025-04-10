@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatFormFieldModule, MatLabel} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
 import { APP_CONSTANTS } from '@shared/constants';
@@ -14,10 +14,14 @@ import {
 const MATERIAL_MODULES = [CommonModule,MatInputModule,MatFormFieldModule,MatButtonModule,MatDialogModule,MatSelectModule]
 @Component({
   selector: 'app-modal',
-  imports: [MATERIAL_MODULES],
+  imports: [ReactiveFormsModule,MATERIAL_MODULES],
   templateUrl: './modal.component.html',
+  standalone:true,
   styleUrl: './modal.component.css'
 })
 export class ModalComponent {
-  countries = APP_CONSTANTS.COUNTRIES
+
+  countries = APP_CONSTANTS.COUNTRIES;
+
+
 }

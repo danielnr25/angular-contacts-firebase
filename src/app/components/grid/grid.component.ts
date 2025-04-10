@@ -3,6 +3,10 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { ContactService } from '@features/contacts/contact.service';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import { ModalService } from '@components/modal/modal.service';
+import { ModalComponent } from '@components/modal/modal.component';
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -33,7 +37,7 @@ const ELEMENT_DATA: PeriodicElement[] = [
   {position: 20, name: 'Calcium', weight: 40.078, symbol: 'Ca'},
 ];
 
-const MATERIAL_MODULES = [MatPaginatorModule,MatTableModule, MatSortModule]
+const MATERIAL_MODULES = [MatPaginatorModule,MatTableModule, MatSortModule,MatIconModule,MatButtonModule]
 
 @Component({
   selector: 'app-grid',
@@ -51,6 +55,7 @@ export class GridComponent<DATA> implements OnInit {
   private readonly _sort = viewChild.required<MatSort>(MatSort);
   private readonly _contactSvc = inject(ContactService);
   private readonly _paginator = viewChild.required<MatPaginator>(MatPaginator);
+  private readonly _modalSvc = inject(ModalService);
   constructor(){
     effect(()=>{
       if(this.data()){
@@ -60,10 +65,17 @@ export class GridComponent<DATA> implements OnInit {
     },{allowSignalWrites: true});
   }
 
-
-
   ngOnInit(): void {
     this.dataSource.data = this.data();
     this.dataSource.sort = this._sort();
   }
+
+  openEditForm(data:DATA):void{
+    this._modalSvc.openModal<ModalComponent,DATA>(ModalComponent,data,true)
+  }
+
+  deleteContact(id:string) :void{
+    console.log('Eliminando contacto', id)
+  }
+
 }
