@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import {MAT_DIALOG_DATA,MatDialogModule } from '@angular/material/dialog';
 import { ModalService } from './modal.service';
 import { ContactService } from '@features/contacts/contact.service';
+import { SnackBarService } from '@shared/service/snack-bar.service';
 const MATERIAL_MODULES = [CommonModule,MatInputModule,MatFormFieldModule,MatButtonModule,MatDialogModule,MatSelectModule]
 @Component({
   selector: 'app-modal',
@@ -26,6 +27,7 @@ export class ModalComponent implements OnInit {
   private readonly _formbuilder = inject(FormBuilder);
   private readonly _modalSvc   = inject(ModalService);
   private readonly _contactSvc = inject(ContactService);
+  private readonly _snackBarSvc = inject(SnackBarService);
 
   getTitle():string{
     return this._matDialog.data ? 'EDITAR ' : 'REGISTRAR ';
@@ -39,6 +41,7 @@ export class ModalComponent implements OnInit {
   }
 
   onSubmit(){
+    let message = APP_CONSTANTS.MESSAGES.CONTACT_UPDATED;
     const contact = this.contactForm.value;
    
     if(this._matDialog.data){
@@ -46,8 +49,9 @@ export class ModalComponent implements OnInit {
       this._contactSvc.updateContact(contact_id,contact);
     }else{ 
       this._contactSvc.newContact(contact);
+      message = APP_CONSTANTS.MESSAGES.CONTACT_CREATED;
     }
-
+    this._snackBarSvc.openSnackBar(message,'ok');
     this._modalSvc.closeModal(); // me permite cerrar mi modal
   }
 

@@ -8,6 +8,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { ModalService } from '@components/modal/modal.service';
 import { ModalComponent } from '@components/modal/modal.component';
 import { APP_CONSTANTS } from '@shared/constants';
+import { SnackBarService } from '@shared/service/snack-bar.service';
 
 export interface PeriodicElement {
   name: string;
@@ -58,6 +59,7 @@ export class GridComponent<DATA> implements OnInit {
   private readonly _contactSvc = inject(ContactService);
   private readonly _paginator = viewChild.required<MatPaginator>(MatPaginator);
   private readonly _modalSvc = inject(ModalService);
+  private readonly _snackBarSvc = inject(SnackBarService);
   constructor(){
     effect(()=>{
       if(this.data()){
@@ -81,6 +83,7 @@ export class GridComponent<DATA> implements OnInit {
     const confirmation = confirm(APP_CONSTANTS.MESSAGES.CONFIRMATION_PROMPT);
     if(confirmation){
       this._contactSvc.deleteContact(id);
+      this._snackBarSvc.openSnackBar(APP_CONSTANTS.MESSAGES.CONTACT_DELETED,'ok');
     }else{
       return;
     }
