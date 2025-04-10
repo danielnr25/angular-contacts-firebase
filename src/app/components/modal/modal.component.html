@@ -1,32 +1,32 @@
 <div mat-dialog-title>
-  <h1>Contacto</h1>
+  <h3>{{getTitle() }}CONTACTO</h3>
 </div>
 
-<form >
+<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
   <div mat-dialog-content class="content">
     <div class="row">
       <mat-form-field appearance="outline">
         <mat-label>Nombre</mat-label>
-        <input matInput type="text">
+        <input matInput type="text" formControlName="name">
       </mat-form-field>
     </div>
     <div class="row">
       <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
-        <input matInput type="text">
+        <input matInput type="text" formControlName="email">
       </mat-form-field>
     </div>
     <div class="row">
       <mat-form-field appearance="outline">
         <mat-label>Telefono</mat-label>
-        <input matInput type="text">
+        <input matInput type="text" formControlName="phone">
       </mat-form-field>
     </div>
 
     <div class="row">
       <mat-form-field>
         <mat-label>País</mat-label>
-        <mat-select>
+        <mat-select formControlName="country">
           <mat-option *ngFor="let element of countries" [value]="element" >{{ element }}</mat-option>
         </mat-select>
       </mat-form-field>
@@ -34,7 +34,7 @@
 
     <div mat-dialog-actions class="action">
       <button mat-raised-button [mat-dialog-close]="false" type="button">Cancelar</button>
-      <button type="submit" mat-flat-button>Registrar</button>
+      <button type="submit" mat-flat-button>{{ getTitle() }}</button>
     </div>
 
 

@@ -7,6 +7,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { ModalService } from '@components/modal/modal.service';
 import { ModalComponent } from '@components/modal/modal.component';
+import { APP_CONSTANTS } from '@shared/constants';
+
 export interface PeriodicElement {
   name: string;
   position: number;
@@ -71,11 +73,17 @@ export class GridComponent<DATA> implements OnInit {
   }
 
   openEditForm(data:DATA):void{
+    console.log(data)
     this._modalSvc.openModal<ModalComponent,DATA>(ModalComponent,data,true)
   }
 
   deleteContact(id:string) :void{
-    console.log('Eliminando contacto', id)
+    const confirmation = confirm(APP_CONSTANTS.MESSAGES.CONFIRMATION_PROMPT);
+    if(confirmation){
+      console.log('Eliminando')
+    }else{
+      return;
+    }
   }
 
 }
