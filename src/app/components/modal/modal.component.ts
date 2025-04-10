@@ -14,9 +14,9 @@ import {
 const MATERIAL_MODULES = [CommonModule,MatInputModule,MatFormFieldModule,MatButtonModule,MatDialogModule,MatSelectModule]
 @Component({
   selector: 'app-modal',
+  standalone:true,
   imports: [ReactiveFormsModule,MATERIAL_MODULES],
   templateUrl: './modal.component.html',
-  standalone:true,
   styleUrl: './modal.component.css'
 })
 export class ModalComponent {
